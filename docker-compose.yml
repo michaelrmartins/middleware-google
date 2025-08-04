@@ -1,0 +1,24 @@
+# Versão do docker-compose
+version: '3.8'
+
+# Nossos serviços (contêineres)
+services:
+  # O nome do nosso serviço. Pode ser qualquer um.
+  middleware-google:
+    # Diz ao compose para construir a imagem a partir do Dockerfile
+    # que está na pasta atual ('.')
+    build: .
+    # Mapeia a porta 3000 do seu computador para a porta 3000 do contêiner
+    ports:
+      - "3000:3000"
+    # A MÁGICA ACONTECE AQUI!
+    # Sincroniza a pasta atual ('.') do seu computador com a pasta /app do contêiner.
+    # Qualquer mudança que você fizer nos arquivos locais, reflete instantaneamente
+    # dentro do contêiner.
+    volumes:
+      - .:/app
+    # Define o comando que será executado quando o contêiner subir.
+    # Em vez de 'node index.js', usamos nosso script 'dev' com nodemon!
+    command: npm run dev
+    env_file:
+      - .env
