@@ -2,7 +2,7 @@
 
 const express = require('express');
 const app = express();
-const routes = require('./routes');
+const routes = require('./src/api/v1/routes/index.v1');
 const path = require('path');
 
 // Enable JSON parsing
