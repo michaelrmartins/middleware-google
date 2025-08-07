@@ -1,12 +1,6 @@
-const googleAdminService = require('../../../../services/googleAdminService');
+const googleAdminService = require('../../../services/googleAdminService');
 
 async function listAllUsersController(req, res) {
-
-    // --- DEBUG LOGS ---
-console.log('--- DEBUGGING FOR listAllUsersController ---');
-console.log('ADMIN_EMAIL from environmnet:', process.env.ADMIN_EMAIL);
-console.log('DOMAIN_EMAIL from environment:', process.env.DOMAIN_EMAIL);
-console.log('------------------------------------');
     try {
         const domain = process.env.DOMAIN_EMAIL; 
 
@@ -49,9 +43,39 @@ async function suspendUserController(req, res){
     }   
 }
 
+async function reactivateUserController(req, res){
+    try {
+        const { userEmail } = req.body;
+        console.log('User key to reactivate:', userEmail);
+        const reactivatedUser = await googleAdminService.reactivateUser({userEmail});
+        
+        res.status(200).json(reactivatedUser);
+
+    } catch (error) {
+        console.error('Controller reactivateUserController error:', error.message);
+        res.status(500).json({ message: 'Reactivate user error.', error: error.errors });
+    }   
+}
+
+async function resetUserPasswordController(req, res){
+    try {
+        const { userEmail } = req.body;
+        console.log('User email to reset password:', userEmail);
+        const resetResponse = await googleAdminService.resetUserPassword({userEmail});
+        
+        res.status(200).json(resetResponse);
+
+    } catch (error) {
+        console.error('Controller resetUserPasswordController error:', error.message);
+        res.status(500).json({ message: 'Reset user password error.', error: error.errors });
+    }   
+
+}
 
 module.exports = {
     listAllUsersController,
     createNewUserController,
-    suspendUserController
+    suspendUserController,
+    reactivateUserController,
+    resetUserPasswordController
 };
