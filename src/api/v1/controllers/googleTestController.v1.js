@@ -1,6 +1,6 @@
 // controllers/googleTestController.js
 
-const googleTestService = require('../../../../services/googleTestService');
+const googleTestService = require('../../../services/googleTestService');
 
 async function whoamiController(req, res) {
     try {
