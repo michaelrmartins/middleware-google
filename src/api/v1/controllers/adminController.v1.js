@@ -35,7 +35,23 @@ async function createNewUserController(req, res){
     }   
 }
 
+async function suspendUserController(req, res){
+    try {
+        const { userEmail } = req.body;
+        console.log('User key to suspend:', userEmail);
+        const suspendedUser = await googleAdminService.suspendUser({userEmail});
+        
+        res.status(200).json(suspendedUser);
+
+    } catch (error) {
+        console.error('Controller suspendUserController error:', error.message);
+        res.status(500).json({ message: 'Suspend user error.', error: error.errors });
+    }   
+}
+
+
 module.exports = {
     listAllUsersController,
-    createNewUserController
+    createNewUserController,
+    suspendUserController
 };

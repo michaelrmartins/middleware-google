@@ -1,6 +1,3 @@
-# Versão do docker-compose
-version: '3.8'
-
 # Nossos serviços (contêineres)
 services:
   # O nome do nosso serviço. Pode ser qualquer um.

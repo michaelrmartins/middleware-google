@@ -138,7 +138,8 @@ async function createUser(userData) {
  * @param {string} userEmail
  * @returns {Promise<Object>}
  */
-async function suspendUser(userEmail) {
+async function suspendUser(userEmailReceived) {
+    const { userEmail } = userEmailReceived || '';
     console.log(`Suspend user: ${userEmail}`);
     
     try {
