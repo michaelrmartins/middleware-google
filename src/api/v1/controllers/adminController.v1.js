@@ -57,6 +57,20 @@ async function reactivateUserController(req, res){
     }   
 }
 
+async function getUserInfosController(req, res){
+    try {
+        const { userEmail } = req.body;
+        console.log('User key to get infos:', userEmail);
+        const getUserInfos = await googleAdminService.getUserInfos({userEmail});
+        
+        res.status(200).json(getUserInfos);
+
+    } catch (error) {
+        console.error('Controller getUserInfosController error:', error.message);
+        res.status(500).json({ message: 'Get user infos error.', error: error.errors });
+    }   
+}
+
 async function resetUserPasswordController(req, res){
     try {
         const { userEmail } = req.body;
@@ -77,5 +91,6 @@ module.exports = {
     createNewUserController,
     suspendUserController,
     reactivateUserController,
+    getUserInfosController,
     resetUserPasswordController
 };
