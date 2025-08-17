@@ -8,6 +8,7 @@ router.post('/email-list', adminController.listAllUsersController)
 router.post('/email-create', adminController.createNewUserController)
 router.post('/email-disable', adminController.suspendUserController)
 router.post('/email-enable', adminController.reactivateUserController)
+router.post('/email-infos', adminController.getUserInfosController)
 router.post('/email-password-reset', adminController.resetUserPasswordController)
 
 module.exports = router;
