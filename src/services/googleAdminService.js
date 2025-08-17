@@ -235,13 +235,13 @@ async function getUserInfos(userEmailReceived) {
             throw new Error('User email is required');
         }
         
-       const res =  await admin.users.get({
+       const userInfos =  await admin.users.get({
             userKey: userEmail
         });
         
         console.log(`User ${userEmail} - Data sucessfully received`);
-        console.log(res);
-        return { message: `${res}` };
+        console.log(userInfos);
+        return userInfos;
         
     } catch (error) {
         handleGoogleAPIError(error, `reactivateUser (${userEmail})`);
