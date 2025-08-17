@@ -222,6 +222,33 @@ async function resetUserPassword(resetData) {
 }
 
 /**
+ * Get user infos Service
+ * @param {string} userEmail
+ * @returns {Promise<Object>}
+ */
+async function getUserInfos(userEmailReceived) {
+    const { userEmail } = userEmailReceived || '';
+    console.log(`User: ${userEmail}`);
+    
+    try {
+        if (!userEmail) {
+            throw new Error('User email is required');
+        }
+        
+       const res =  await admin.users.get({
+            userKey: userEmail
+        });
+        
+        console.log(`User ${userEmail} - Data sucessfully received`);
+        console.log(res);
+        return { message: `${res}` };
+        
+    } catch (error) {
+        handleGoogleAPIError(error, `reactivateUser (${userEmail})`);
+    }
+}
+
+/**
  * Connection test function
  * @returns {Promise<boolean>} - true = sucess, false = failure
  */
@@ -253,6 +280,7 @@ module.exports = {
     createUser,
     suspendUser,
     reactivateUser,
+    getUserInfos,
     testConnection,
     resetUserPassword
 };
