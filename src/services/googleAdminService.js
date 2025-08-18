@@ -14,7 +14,9 @@ const ADMIN_EMAIL_TO_IMPERSONATE = process.env.ADMIN_EMAIL;
 
 const SCOPES = [
     'https://www.googleapis.com/auth/admin.directory.user',
-    'https://www.googleapis.com/auth/admin.directory.user.readonly'
+    'https://www.googleapis.com/auth/admin.directory.user.readonly',
+     'https://www.googleapis.com/auth/drive.readonly',
+     'https://www.googleapis.com/auth/admin.reports.usage.readonly'
 ];
 
 const CREDENTIALS_PATH = path.join(process.cwd(), 'google-credentials.json');
@@ -244,7 +246,63 @@ async function getUserInfos(userEmailReceived) {
         return userInfos;
         
     } catch (error) {
-        handleGoogleAPIError(error, `reactivateUser (${userEmail})`);
+        handleGoogleAPIError(error, `Get user infos from: (${userEmail})`);
+    }
+}
+
+/**
+ * Get Google Drive user infos Service
+ * @param {string} userEmail
+ * @returns {Promise<Object>}
+ */
+async function getDriveUserInfos(userEmailReceived) {
+     const { userEmail } = userEmailReceived || '';
+    if (!userEmail) {
+        throw new Error('User email is required');
+    }
+    console.log(`Getting data for: ${userEmail}`);
+
+    try {
+        const auth = new google.auth.GoogleAuth({
+            keyFile: CREDENTIALS_PATH,
+            scopes: ['https://www.googleapis.com/auth/drive.readonly'],
+        });
+
+        const authClient = await auth.getClient();
+        authClient.subject = userEmail;
+
+        const drive = google.drive({
+            version: 'v3',
+            auth: authClient,
+        });
+
+        const res = await drive.about.get({
+            fields: 'storageQuota',
+        });
+
+        const quota = res.data.storageQuota;
+
+        if (!quota || !quota.limit || !quota.usage) {
+             console.warn(`Failed to get data for ${userEmail}. Error:`, quota);
+             return { total: null, used: null, free: null };
+        }
+
+        console.log(`Quota for ${userEmail}:`, quota);
+        
+        const totalBytes = Number(quota.limit);
+        const usedBytes = Number(quota.usage);
+        const usedInDrive = Number(quota.usageInDrive)
+        const freeBytes = totalBytes - usedBytes;
+
+        return {
+            total: totalBytes,
+            used: usedBytes,
+            usedInDrive: usedInDrive,
+            free: freeBytes,
+        };
+
+    } catch (error) {
+        handleGoogleAPIError(error, `getDriveUserInfos (${userEmail})`);
     }
 }
 
@@ -281,6 +339,7 @@ module.exports = {
     suspendUser,
     reactivateUser,
     getUserInfos,
+    getDriveUserInfos,
     testConnection,
     resetUserPassword
 };
