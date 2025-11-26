@@ -9,6 +9,25 @@ A powerful and lightweight Node.js middleware service for managing Google Worksp
 - **Docker Ready**: Fully containerized with Docker and Docker Compose
 - **Production Ready**: Built with Node.js 24 and optimized for performance
 - **Modular Architecture**: Clean separation of concerns with controllers, services, and routes
+- **Comprehensive Documentation**: 140+ pages of detailed guides and references
+
+## 📚 Documentation
+
+This project includes comprehensive documentation covering all aspects of setup, development, and deployment:
+
+- **[📖 Documentation Index](./docs/README.md)** - Start here for a complete overview
+- **[🔌 API Documentation](./docs/API_DOCUMENTATION.md)** - Complete API reference with examples
+- **[🏗️ Architecture Guide](./docs/ARCHITECTURE.md)** - System design and technical architecture
+- **[⚙️ Setup Guide](./docs/SETUP_GUIDE.md)** - Installation and configuration
+- **[💻 Development Guide](./docs/DEVELOPMENT_GUIDE.md)** - Contributing and development workflow
+- **[🚀 Deployment Guide](./docs/DEPLOYMENT_GUIDE.md)** - Production deployment strategies
+- **[🔧 Troubleshooting Guide](./docs/TROUBLESHOOTING.md)** - Common issues and solutions
+
+**Quick Links:**
+- New to the project? → [Setup Guide](./docs/SETUP_GUIDE.md)
+- Using the API? → [API Documentation](./docs/API_DOCUMENTATION.md)
+- Deploying to production? → [Deployment Guide](./docs/DEPLOYMENT_GUIDE.md)
+- Having issues? → [Troubleshooting Guide](./docs/TROUBLESHOOTING.md)
 
 ## 🏗️ Architecture
 
@@ -221,9 +240,14 @@ This project is licensed under the ISC License - see the [LICENSE](LICENSE) file
 
 If you encounter any issues or have questions:
 
-1. Check the [Issues](https://github.com/yourusername/middleware-google/issues) page
-2. Create a new issue with detailed information
-3. Include logs and configuration details (without sensitive data)
+1. Check the [Troubleshooting Guide](./docs/TROUBLESHOOTING.md)
+2. Review the [Documentation Index](./docs/README.md)
+3. Search existing [Issues](https://github.com/yourusername/middleware-google/issues)
+4. Create a new issue with:
+   - Error messages and stack traces
+   - Steps to reproduce
+   - Environment details
+   - Relevant logs (without sensitive data)
 
 ## 🙏 Acknowledgments
 
