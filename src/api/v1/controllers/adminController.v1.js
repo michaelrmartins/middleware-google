@@ -71,6 +71,20 @@ async function getUserInfosController(req, res){
     }   
 }
 
+async function getDriveUserInfosController(req, res){
+    try {
+        const { userEmail } = req.body;
+        console.log('User key to get infos:', userEmail);
+        const getDriveUserInfos = await googleAdminService.getDriveUserInfos({userEmail});
+        
+        res.status(200).json(getDriveUserInfos);
+
+    } catch (error) {
+        console.error('Controller getDriveUserInfosController error:', error.message);
+        res.status(500).json({ message: 'Get drive user infos error.', error: error.errors });
+    }   
+}
+
 async function resetUserPasswordController(req, res){
     try {
         const { userEmail } = req.body;
@@ -92,5 +106,6 @@ module.exports = {
     suspendUserController,
     reactivateUserController,
     getUserInfosController,
+    getDriveUserInfosController,
     resetUserPasswordController
 };

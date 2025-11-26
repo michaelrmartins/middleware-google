@@ -10,5 +10,6 @@ router.post('/email-disable', adminController.suspendUserController)
 router.post('/email-enable', adminController.reactivateUserController)
 router.post('/email-infos', adminController.getUserInfosController)
 router.post('/email-password-reset', adminController.resetUserPasswordController)
+router.post('/drive-infos', adminController.getDriveUserInfosController)
 
 module.exports = router;
