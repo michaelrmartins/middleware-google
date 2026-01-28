@@ -25,7 +25,7 @@ async function createNewUserController(req, res){
 
     } catch (error) {
         console.error('Controller createNewUserController error:', error.message);
-        res.status(500).json({ message: 'Create user error.', error: error.errors });
+        res.status(500).json({ message: 'Create user error - ' +  error.message, error: error.errors });
     }   
 }
 
