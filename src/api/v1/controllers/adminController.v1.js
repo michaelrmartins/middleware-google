@@ -1,17 +1,40 @@
 const googleAdminService = require('../../../services/googleAdminService');
+const logModel = require('../../../models/logModel');
 
 async function listAllUsersController(req, res) {
+    // Start and load common data
+    const start = Date.now();
+    const tenantId = process.env.TENANT_ID || 'unknown';
+    const clientIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+    let responseData = {};
+    let statusCode = 200;
+    console.log(tenantId, 'requested listAllUsersController from IP:', clientIp);
     try {
         const domain = process.env.DOMAIN_EMAIL; 
 
         const users = await googleAdminService.listAllUsers(domain);
-        
+        responseData = { message: "Data Loaded", data: `${users.length} users found:`};
         console.log(`${users.length} users found:`);
         res.status(200).json(users);
 
     } catch (error) {
+        responseData = { error: error.message };
         console.error('Controller listAllUsersController error:', error.message);
         res.status(500).json({ message: 'List users error.', error: error.errors });
+    } finally {
+        // Log operation 
+        const duration = Date.now() - start;
+        logModel.create({
+        tenant_id: tenantId,
+        endpoint: req.originalUrl, 
+        http_method: req.method,   
+        status_code: statusCode,
+        request_payload: req.body, 
+        response_body: responseData,
+        ip_address: clientIp,
+        duration_ms: duration
+    });
+
     }
 }
 
