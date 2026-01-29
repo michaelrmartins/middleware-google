@@ -197,8 +197,8 @@ async function reactivateUser(userEmailReceived) {
  */
 async function resetUserPassword(resetData) {
     const { userEmail, newPassword } = resetData;
-    console.log(`Resetting password for user: ${userEmail}`);
-    console.log(`New password provided: ${newPassword}`);
+    // console.log(`Resetting password for user: ${userEmail}`);
+    // console.log(`New password provided: ${newPassword}`);
     try {
         if (!userEmail) {
             throw new Error('User email are required for reset.');
@@ -215,8 +215,8 @@ async function resetUserPassword(resetData) {
             },
         });
 
-        console.log(`Password for user ${userEmail} was reset successfully.`);
-        return { message: `Password for user ${userEmail} was reset successfully.`,
+        console.log(`Password for user ${userEmail} was reset successfully - New password: ${finalPassword}`);
+        return { message: `Password for ${userEmail} was reset successfully - New password: ${finalPassword}`,
                  newPassword: finalPassword};
 
     } catch (error) {

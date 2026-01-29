@@ -88,7 +88,7 @@ async function getDriveUserInfosController(req, res){
 async function resetUserPasswordController(req, res){
     try {
         const { userEmail, newPassword } = req.body;
-        console.log('User email to reset password:', userEmail);
+        // console.log('User email to reset password:', userEmail);
         const resetResponse = await googleAdminService.resetUserPassword({userEmail, newPassword});
         
         res.status(200).json(resetResponse);
