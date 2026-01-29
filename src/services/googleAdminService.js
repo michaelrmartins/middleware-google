@@ -191,32 +191,33 @@ async function reactivateUser(userEmailReceived) {
 }
 
 /**
- * Resets a user's password.
+ * Resets a user's password Auto-generated
  * @param {object} resetData
  * @returns {Promise<Object>}
  */
 async function resetUserPassword(resetData) {
-    const { userEmail } = resetData;
+    const { userEmail, newPassword } = resetData;
     console.log(`Resetting password for user: ${userEmail}`);
 
     try {
         if (!userEmail) {
             throw new Error('User email are required for reset.');
         }
+
         // Generate a new password
-        const newPassword = generatePassword(12);
+        const finalPassword = newPassword || generatePassword(12);
 
         await admin.users.update({
             userKey: userEmail,
             requestBody: {
-                password: newPassword,
+                password: finalPassword,
                 changePasswordAtNextLogin: true,
             },
         });
 
         console.log(`Password for user ${userEmail} was reset successfully.`);
         return { message: `Password for user ${userEmail} was reset successfully.`,
-                 newPassword: newPassword};
+                 newPassword: finalPassword};
 
     } catch (error) {
         handleGoogleAPIError(error, `resetUserPassword (${userEmail})`);
