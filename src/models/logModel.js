@@ -4,8 +4,9 @@ const db = require('../config/database');
 const LogModel = {
   /**
    * record a new log entry in the database
-   * @param {Object} data - 
+   * @param {Object} data - log data
    */
+
   async create(data) {
     const query = `
       INSERT INTO request_logs 
@@ -30,7 +31,7 @@ const LogModel = {
       // console.log(`Log gravado com sucesso. ID: ${rows[0].id}`);
       return rows[0];
     } catch (error) {
-      console.error('ERRO AO GRAVAR LOG NO BANCO:', error.message);
+      console.error('Write database data error', error.message);
       return null;
     }
   }
