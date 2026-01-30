@@ -23,7 +23,7 @@ services:
       - GOOGLE_APPLICATION_CREDENTIALS=/app/google-credentials.json
 
       # Server Ip and Port
-      - SERVER_IP=${SERVER_IP_ADDRESS}
+      - SERVER_IP_ADDRESS=${SERVER_IP_ADDRESS}
       - SERVER_PORT=${SERVER_PORT}
 
     volumes:
@@ -53,7 +53,7 @@ services:
       - GOOGLE_APPLICATION_CREDENTIALS=/app/google-credentials.json
 
       # Server Ip and Port
-      - SERVER_IP=${SERVER_IP_ADDRESS}
+      - SERVER_IP_ADDRESS=${SERVER_IP_ADDRESS}
       - SERVER_PORT=${SERVER_PORT}
     volumes:
       - ./google-credentials-fbpn.json:/app/google-credentials.json:ro
