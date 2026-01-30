@@ -7,7 +7,7 @@ services:
     environment:
       # Tenant Configuration
       - TENANT_ID=${TENANT_ID_FMC}
-      - TENANT_NAME_FMC=${TENANT_NAME_FMC}
+      - TENANT_NAME=${TENANT_NAME_FMC}
       
       # Database Configuration
       - DB_HOST=postgres
@@ -39,7 +39,7 @@ services:
     environment:
       # Tenant Configuration
       - TENANT_ID=${TENANT_ID_FBPN}
-      - TENANT_NAME_FBPN=${TENANT_NAME_FBPN}
+      - TENANT_NAME=${TENANT_NAME_FBPN}
 
       # Database Configuration
       - DB_HOST=postgres
