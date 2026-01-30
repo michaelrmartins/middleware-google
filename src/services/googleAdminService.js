@@ -19,7 +19,8 @@ const SCOPES = [
      'https://www.googleapis.com/auth/admin.reports.usage.readonly'
 ];
 
-const CREDENTIALS_PATH = path.join(process.cwd(), 'google-credentials.json');
+// const CREDENTIALS_PATH = path.join(process.cwd(), 'google-credentials.json');
+const CREDENTIALS_PATH = process.env.GOOGLE_APPLICATION_CREDENTIALS || path.join(process.cwd(), 'google-credentials.json');
 
 if (!ADMIN_EMAIL_TO_IMPERSONATE) {
     throw new Error('ADMIN_EMAIL is not present in environment variables');
