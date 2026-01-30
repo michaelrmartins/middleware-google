@@ -23,9 +23,8 @@ services:
       - pgdata:/var/lib/postgressql/data
     networks:
       - intranet-network
-
 volumes:
   pgdata:
-
+  
 networks:
   intranet-network:
