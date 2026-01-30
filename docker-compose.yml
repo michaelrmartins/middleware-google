@@ -1,30 +1,98 @@
 services:
-  middleware-google:
+  # --- FMC API ---
+  middleware-fmc:
     build: .
-    ports:
-      - "3000:3000"
+    container_name: middleware-fmc
+    restart: always
+    environment:
+      # Tenant Configuration
+      - TENANT_ID=${TENANT_ID_FMC}
+      - TENANT_NAME_FMC=${TENANT_NAME_FMC}
+      
+      # Database Configuration
+      - DB_HOST=postgres
+      - DB_HOST=postgres
+      - DB_PORT=${DB_PORT}
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+
+      # Google and Email Configuration
+      - ADMIN_EMAIL=${ADMIN_EMAIL_FMC}
+      - DOMAIN_EMAIL=${DOMAIN_EMAIL_FMC}
+      - GOOGLE_APPLICATION_CREDENTIALS=/app/google-credentials.json
+
+      # Server Ip and Port
+      - SERVER_IP=${SERVER_IP_ADDRESS}
+      - SERVER_PORT=${SERVER_PORT}
+
     volumes:
-      - .:/app
-    command: npm run dev
-    env_file:
-      - .env
+      - ./google-credentials-fmc.json:/app/google-credentials.json:ro
     networks:
       - intranet-network
 
-  # Database for logs
-  postgres:
-    image: postgres:15-alpine
-    container_name: postgres_database
+  # --- FBPN API ---
+  middleware-fbpn:
+    build: .
+    container_name: middleware-fbpn
+    restart: always
     environment:
-      - POSTGRES_USER=admin
-      - POSTGRES_PASSWORD=fth67jil
-      - POSTGRES_DB=googleapi_logs
+      # Tenant Configuration
+      - TENANT_ID=${TENANT_ID_FBPN}
+      - TENANT_NAME_FBPN=${TENANT_NAME_FBPN}
+
+      # Database Configuration
+      - DB_HOST=postgres
+      - DB_PORT=${DB_PORT}
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_HOST=postgres
+      - ADMIN_EMAIL=${ADMIN_EMAIL_FBPN}
+      - DOMAIN_EMAIL=${DOMAIN_EMAIL_FBPN}
+      - GOOGLE_APPLICATION_CREDENTIALS=/app/google-credentials.json
+
+      # Server Ip and Port
+      - SERVER_IP=${SERVER_IP_ADDRESS}
+      - SERVER_PORT=${SERVER_PORT}
     volumes:
-      - pgdata:/var/lib/postgressql/data
+      - ./google-credentials-fbpn.json:/app/google-credentials.json:ro
     networks:
       - intranet-network
-volumes:
-  pgdata:
-  
+
+  # --- Database ---
+  postgres:
+    image: postgres:15-alpine
+    container_name: database-main
+    restart: always
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - intranet-network
+    ports: 
+      - "${DB_PORT}:5432"
+
+  # --- (NGINX) ---
+  nginx:
+    image: nginx:alpine
+    container_name: nginx-gateway
+    ports:
+      - "80:80" 
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro 
+    depends_on:
+      - middleware-fmc
+      - middleware-fbpn
+    networks:
+      - intranet-network
+
 networks:
   intranet-network:
+    driver: bridge
+
+volumes:
+  postgres_data:

@@ -32,4 +32,4 @@ EXPOSE 3000
 # 7. QUAL O COMANDO PARA INICIAR A APLICAÇÃO?
 # Este é o comando que será executado QUANDO o contêiner for iniciado com 'docker run'.
 # Ele efetivamente inicia o seu servidor Express.
-CMD ["node", "index.js"]
+CMD ["node", "server.js"]
