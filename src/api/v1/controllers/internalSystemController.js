@@ -4,7 +4,7 @@
 const internalSystemModel = require('../../../models/internalSystemModel');
 
 // Health check controller
-const healthCheck = async (req, res) => {
+const healthCheckController = async (req, res) => {
     try {
         const result = await internalSystemModel.healthCheck();
         if (result.status === 'ok') {
@@ -18,6 +18,17 @@ const healthCheck = async (req, res) => {
     }
 };
 
+// Controller to get all logs
+const getAllLogsController = async (req, res) => {
+    try {
+        const logs = await internalSystemModel.getAllLogsModel();
+        res.status(200).json({ status: 'ok', data: logs });
+    } catch (error) {
+        console.error('Get all logs controller error:', error.message);
+        res.status(500).json({ status: 'error', message: 'Internal server error' });
+    }
+};
+
 module.exports = {
-    healthCheck,
+    healthCheckController, getAllLogsController,
 };
