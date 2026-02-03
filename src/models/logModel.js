@@ -37,4 +37,5 @@ const LogModel = {
   }
 };
 
+
 module.exports = LogModel;

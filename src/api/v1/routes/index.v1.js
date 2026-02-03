@@ -4,12 +4,14 @@ const express = require('express')
 const router = express.Router();
 const path = require('path');   
 
+
 // Importing the routes from the 'routes' directory
 const userRoutes = require('./userRoutes.v1');
-const testRoutes = require('./googleTestRoutes.v1'); 
+const systemRoutes = require('./systemRoutes.v1');
 
 router.get('/', (req, res) => {res.status(200).send('Google API - Home');});
+
 router.use('/api/v1/users', userRoutes);
-router.use('/api/v1/test', testRoutes); 
+router.use('/api/v1', systemRoutes); 
 
 module.exports = router;
