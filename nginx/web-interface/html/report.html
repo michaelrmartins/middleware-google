@@ -637,9 +637,20 @@
         // API Configuration
         const API_HOSTS = ['middleware-fmc', 'middleware-fbpn'];
         const API_PORT = 3000;
+        const AUTH_CREDENTIALS = 'YWRtaW46ZnRoNjdqaWw='; // Base64 encoded username:password
         let currentApiHost = API_HOSTS[0];
         let allLogs = [];
         let tenants = [];
+
+        // Helper function for authenticated fetch
+        function authFetch(url, options = {}) {
+            const defaultHeaders = {
+                'Authorization': `Basic ${AUTH_CREDENTIALS}`,
+                'Content-Type': 'application/json'
+            };
+            options.headers = { ...defaultHeaders, ...options.headers };
+            return fetch(url, options);
+        }
 
         // Initialize the page
         document.addEventListener('DOMContentLoaded', () => {
@@ -670,9 +681,8 @@
         async function findWorkingHost() {
             for (const host of API_HOSTS) {
                 try {
-                    const response = await fetch(`http://${host}:${API_PORT}/health`, {
-                        method: 'GET',
-                        timeout: 3000
+                    const response = await authFetch(`http://${host}:${API_PORT}/health`, {
+                        method: 'GET'
                     });
                     if (response.ok) {
                         currentApiHost = host;
@@ -691,7 +701,7 @@
             const text = document.getElementById('statusText');
 
             try {
-                const response = await fetch(`http://${currentApiHost}:${API_PORT}/health`);
+                const response = await authFetch(`http://${currentApiHost}:${API_PORT}/health`);
                 if (response.ok) {
                     indicator.classList.remove('error');
                     text.textContent = `Connected (${currentApiHost})`;
@@ -714,7 +724,7 @@
         // Load tenants for dropdown
         async function loadTenants() {
             try {
-                const response = await fetch(`http://${currentApiHost}:${API_PORT}/logs/tenant`);
+                const response = await authFetch(`http://${currentApiHost}:${API_PORT}/logs/tenant`);
                 const result = await response.json();
 
                 if (result.status === 'ok' && result.data) {
@@ -769,17 +779,14 @@
                 }
 
                 const options = {
-                    method: method,
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
+                    method: method
                 };
 
                 if (body) {
                     options.body = body;
                 }
 
-                const response = await fetch(url, options);
+                const response = await authFetch(url, options);
                 const result = await response.json();
 
                 if (result.status === 'ok' && result.data) {
