@@ -29,6 +29,18 @@ const getAllLogsController = async (req, res) => {
     }
 };
 
+// Controller to get all tenants 
+const getLogsAllTenantsController = async (req, res) => {
+    // const { tenantId } = req.params;
+    try {
+        const logs = await internalSystemModel.getLogsAllTenantsModel();
+        res.status(200).json({ status: 'ok', data: logs });
+    } catch (error) {
+        console.error('Get logs All Tenants controller error:', error.message);
+        res.status(500).json({ status: 'error', message: 'Internal server error' });
+    }
+};
+
 // Controller to get logs by tenant ID
 const getLogsByTenantIdController = async (req, res) => {
     const { tenantId } = req.params;
@@ -102,12 +114,10 @@ const getLogsByDateRangeController = async (req, res) => {
     }
 };
 
-
-
-
 module.exports = {
     healthCheckController, 
     getAllLogsController, 
+    getLogsAllTenantsController,
     getLogsByTenantIdController,
     getLogsByStatusCodeController, 
     getLogsByEndpointController,

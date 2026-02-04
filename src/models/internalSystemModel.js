@@ -26,6 +26,17 @@ const healthCheck = async () => {
     }
 };
 
+// Get all logs All tenants
+const getLogsAllTenantsModel = async () => {
+    try {
+        const result = await db.query(query.getLogsAllTenantsQuery);
+        return result.rows;
+    } catch (error) {
+        console.error('Error fetching logs by tenant ID:', error.message);
+        throw error;
+    }       
+};
+
 // Get all logs by tenant ID
 const getLogsByTenantIdModel = async (tenantId) => {
     try {
@@ -90,6 +101,7 @@ const getLogsByDateRangeModel = async (startDate, endDate) => {
 // Export 
 module.exports = { healthCheck, 
                    getAllLogsModel, 
+                   getLogsAllTenantsModel,
                    getLogsByTenantIdModel,
                    getLogsByStatusCodeModel, 
                    getLogsByEndpointModel, 

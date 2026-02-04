@@ -8,6 +8,7 @@ router.get('/health', internalSystemController.healthCheckController);
 
 // Get logs routes
 router.get('/logs', internalSystemController.getAllLogsController);
+router.get('/logs/tenant', internalSystemController.getLogsAllTenantsController);
 router.get('/logs/tenant/:tenantId', internalSystemController.getLogsByTenantIdController);
 router.get('/logs/status/:statusCode', internalSystemController.getLogsByStatusCodeController);
 router.get('/logs/endpoint/:endpoint', internalSystemController.getLogsByEndpointController);
