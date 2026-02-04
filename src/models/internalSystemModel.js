@@ -14,7 +14,7 @@ const healthCheck = async () => {
     }
 };
 
-// Function to retrieve logs from the database
+// Function to retrieve all logs from the database
  const getAllLogsModel = async (limit = 100) => {
     try {
         // const values = [limit];
@@ -24,6 +24,75 @@ const healthCheck = async () => {
         console.error('Error fetching logs:', error.message);
         throw error;
     }
-}
+};
 
-module.exports = { healthCheck, getAllLogsModel};
+// Get all logs by tenant ID
+const getLogsByTenantIdModel = async (tenantId) => {
+    try {
+        const values = [tenantId];
+        console.log('Tenant ID received in model:', values);
+        const result = await db.query(query.getLogsByTenantIdQuery, values);
+        return result.rows;
+    } catch (error) {
+        console.error('Error fetching logs by tenant ID:', error.message);
+        throw error;
+    }       
+};
+
+// Get all logs by HTTP Status Code
+const getLogsByStatusCodeModel = async (statusCode) => {
+    try {
+        const values = [statusCode];
+        const result = await db.query(query.getLogsByStatusCodeQuery, values);
+        return result.rows;
+    } catch (error) {
+        console.error('Error fetching logs by status code:', error.message);
+        throw error;
+    }
+};
+
+// Get all logs by Endpoint
+const getLogsByEndpointModel = async (endpoint) => {
+    try {
+        const values = [endpoint];
+        const result = await db.query(query.getLogsByEndpointQuery, values);
+        return result.rows;
+    } catch (error) {
+        console.error('Error fetching logs by endpoint:', error.message);
+        throw error;
+    }
+};
+
+// Get all logs by HTTP Method
+const getLogsByHttpMethodModel = async (httpMethod) => {
+    try {
+        const values = [httpMethod];
+        const result = await db.query(query.getLogsByHttpMethodQuery, values);
+        return result.rows;
+    } catch (error) {
+        console.error('Error fetching logs by HTTP method:', error.message);
+        throw error;
+    }
+};
+
+// Get all logs by Date Range
+const getLogsByDateRangeModel = async (startDate, endDate) => {
+    try {
+        const values = [startDate, endDate];
+        const result = await db.query(query.getLogsByDateRangeQuery, values);
+        return result.rows;
+    } catch (error) {
+        console.error('Error fetching logs by date range:', error.message);
+        throw error;
+    }
+};
+
+// Export 
+module.exports = { healthCheck, 
+                   getAllLogsModel, 
+                   getLogsByTenantIdModel,
+                   getLogsByStatusCodeModel, 
+                   getLogsByEndpointModel, 
+                   getLogsByHttpMethodModel, 
+                   getLogsByDateRangeModel 
+};
