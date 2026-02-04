@@ -1,12 +1,19 @@
 // Core APP File
 
 const express = require('express');
+const cors = require('cors');
 const app = express();
 const routes = require('./src/api/v1/routes/index.v1');
 const path = require('path');
 
 // Enable JSON parsing
 app.use(express.json());
+
+app.use(cors(
+    {
+        origin: '*'
+    }
+));
 
 console.log("Middleware Google App is starting...");
 
