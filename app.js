@@ -11,7 +11,7 @@ app.use(express.json());
 
 app.use(cors(
     {
-        origin: '*'
+        origin: 'http://relatorios.api-google.intranet', credentials: true
     }
 ));
 
