@@ -12,7 +12,7 @@ A powerful and lightweight Node.js middleware service for managing Google Worksp
 
 ## 🏗️ Architecture
 
-![Flow 1 Diagram](doc/img/flow-1.png)
+![Flow 1 Diagram](docs/img/flow-1.png)
 
 
 ```
