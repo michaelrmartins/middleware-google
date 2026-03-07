@@ -82,18 +82,28 @@ function handleGoogleAPIError(error, operation) {
  */
 async function listAllUsers(domain) {
     console.log(`Getting all domains users: ${domain}`);
-    
+    let allUsers = [];
+    let pageToken = null;
+
     try {
+        do {
         const response = await admin.users.list({
             domain: domain,
             maxResults: 500,
             orderBy: 'email',
+            pageToken: pageToken
         });
 
-        const users = response.data.users || [];
-        console.log(`Found ${users.length} users`);
-        return users;
-        
+        const usersfromThispage = response.data.users || [];
+        allUsers = allUsers.concat(usersfromThispage);
+        pageToken = response.data.nextPageToken;
+        } while (pageToken);
+
+
+        console.log(`Found ${allUsers.length} users`);
+        return allUsers;
+    
+
     } catch (error) {
         handleGoogleAPIError(error, 'listAllUsers');
     }
