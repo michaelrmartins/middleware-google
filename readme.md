@@ -1,8 +1,8 @@
-# 🚀 Google API Middleware
+#  Google API Middleware
 
 A powerful and lightweight Node.js middleware service for managing Google Workspace user accounts through the Google Admin SDK API. Built with Express.js, Docker, and the official Google APIs client library.
 
-## ✨ Features
+## Features
 
 - **User Email Management**: Complete CRUD operations for Google Workspace user accounts
 - **Secure API**: RESTful API endpoints with proper error handling
@@ -10,7 +10,7 @@ A powerful and lightweight Node.js middleware service for managing Google Worksp
 - **Production Ready**: Built with Node.js 24 and optimized for performance
 - **Modular Architecture**: Clean separation of concerns with controllers, services, and routes
 
-## 🏗️ Architecture
+## Architecture
 
 ![Flow 1 Diagram](docs/img/flow-1.png)
 
@@ -62,7 +62,7 @@ middleware-google/
 }
 ```
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 
@@ -153,7 +153,7 @@ curl -X POST http://localhost:3000/api/v1/users/email-password-reset \
   -d '{"email": "user@yourdomain.com"}'
 ```
 
-## 🔧 Configuration
+## Configuration
 
 ### Google Service Account Setup
 
@@ -201,7 +201,7 @@ docker-compose up -d
 docker run -p 3000:3000 --env-file .env middleware-google
 ```
 
-## 📊 Health Check
+##  Health Check
 
 Check if the service is running:
 ```bash
@@ -220,7 +220,7 @@ curl http://localhost:3000/health
 
 This project is licensed under the ISC License - see the [LICENSE](LICENSE) file for details.
 
-## 🆘 Support
+## Support
 
 If you encounter any issues or have questions:
 
