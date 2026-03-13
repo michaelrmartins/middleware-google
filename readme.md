@@ -56,7 +56,7 @@ middleware-google/
 {
   "success": true,
   "data": {
-    // Response data here
+    // Response
   },
   "message": "Operation completed successfully"
 }
