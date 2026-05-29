@@ -1,19 +1,31 @@
 const googleAdminService = require('../../../services/googleAdminService');
+const redis = require('../../../config/redisClient');
+
+const CACHE_TTL_EMAIL_LIST  = 120; // 2 minutes
+const CACHE_TTL_EMAIL_INFOS = 30;  // 30 seconds
 
 async function listAllUsersController(req, res) {
     try {
-        const domain = process.env.DOMAIN_EMAIL; 
+        const domain = process.env.DOMAIN_EMAIL;
+        const cacheKey = `email-list:${domain}`;
+
+        const cached = await redis.get(cacheKey).catch(() => null);
+        if (cached) {
+            console.log(`Cache hit: ${cacheKey}`);
+            return res.status(200).json(JSON.parse(cached));
+        }
 
         const users = await googleAdminService.listAllUsers(domain);
-        responseData = { message: "Data Loaded", data: `${users.length} users found:`};
         console.log(`${users.length} users found:`);
+
+        redis.set(cacheKey, JSON.stringify(users), 'EX', CACHE_TTL_EMAIL_LIST).catch(() => null);
+
         res.status(200).json(users);
 
     } catch (error) {
-        responseData = { error: error.message };
         console.error('Controller listAllUsersController error:', error.message);
         res.status(500).json({ message: 'List users error.', error: error.errors });
-    } 
+    }
 }
 
 async function createNewUserController(req, res){
@@ -62,14 +74,24 @@ async function getUserInfosController(req, res){
     try {
         const { userEmail } = req.body;
         console.log('User key to get infos:', userEmail);
+        const cacheKey = `email-infos:${userEmail}`;
+
+        const cached = await redis.get(cacheKey).catch(() => null);
+        if (cached) {
+            console.log(`Cache hit: ${cacheKey}`);
+            return res.status(200).json(JSON.parse(cached));
+        }
+
         const getUserInfos = await googleAdminService.getUserInfos({userEmail});
-        
+
+        redis.set(cacheKey, JSON.stringify(getUserInfos), 'EX', CACHE_TTL_EMAIL_INFOS).catch(() => null);
+
         res.status(200).json(getUserInfos);
 
     } catch (error) {
         console.error('Controller getUserInfosController error:', error.message);
         res.status(500).json({ message: 'Get user infos error.', error: error.errors });
-    }   
+    }
 }
 
 async function getDriveUserInfosController(req, res){

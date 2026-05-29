@@ -25,6 +25,9 @@ services:
       - SERVER_IP_ADDRESS=${SERVER_IP_ADDRESS}
       - SERVER_PORT=${SERVER_PORT}
 
+      # Redis Cache
+      - REDIS_HOST=server-redis
+
     volumes:
       - /home/cgi/documents/projects/middleware-google-api/google-credentials-fmc.json:/app/google-credentials.json:ro
     networks:
@@ -53,6 +56,10 @@ services:
       # Server Ip and Port
       - SERVER_IP_ADDRESS=${SERVER_IP_ADDRESS}
       - SERVER_PORT=${SERVER_PORT}
+
+      # Redis Cache
+      - REDIS_HOST=server-redis
+
     volumes:
       - /home/cgi/documents/projects/middleware-google-api/google-credentials-fbpn.json:/app/google-credentials.json:ro
     networks:
